@@ -1,0 +1,13 @@
+# General files
+.DS_Store
+*.local
+*.swp
+
+# Production files
+.env
+dist
+conf/*.priv
+
+# NodeJS
+node_modules
+npm-debug.log*
