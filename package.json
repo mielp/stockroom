@@ -1,6 +1,7 @@
 {
   "name": "stockroom",
   "version": "0.1.0",
+  "repository": "github:mielp/stockroom",
   "description": "A backend for ecommerce websites.",
   "main": "src/index.js",
   "scripts": {
@@ -13,10 +14,11 @@
   "license": "EUPL-1.2",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "fastify": "^3.10.1",
+    "express": "^4.17.1",
     "module-alias": "^2.2.2"
   },
   "devDependencies": {
+    "@types/express": "^4.17.11",
     "@types/node": "^14.14.21",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",

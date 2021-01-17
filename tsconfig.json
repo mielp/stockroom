@@ -10,7 +10,7 @@
     "moduleResolution": "Node",
     "outDir": "./dist",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
     "pretty": true,
     "resolveJsonModule": true,

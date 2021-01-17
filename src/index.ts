@@ -1,9 +1,14 @@
-require('module-alias/register'); // for path resolution
+if (!process.env.TS_NODE_DEV) {
+  require('module-alias/register'); // for path resolution
+}
 
-import fastify, { FastifyInstance } from 'fastify';
+import { createServer, Server } from 'http';
+import { default as express, Express } from 'express';
 import { App, pkg } from '@/config';
+import { setup } from '@/routes';
 
-let app: FastifyInstance;
+let app: Express;
+let server: Server;
 let cleanExit = false;
 
 /**
@@ -14,13 +19,18 @@ async function boot() {
   console.info(`🌸 Starting ${pkg.name} v${pkg.version} in ${App.ENV} mode`);
   // TODO: connect to the database
 
+  // Setup the routes
+  app = express();
+  setup(app);
+  server = createServer(app);
+
   // Listen to HTTP requests
-  app = fastify(/* { logger: true } */);
-  app.listen(App.PORT, (err) => {
-    if (err) {
-      console.error('   😖 Unable to start the HTTP server');
-      process.exit(1);
-    }
+  server.on('error', (err) => {
+    console.error('   😖 Unable to start the HTTP server');
+    console.error(err);
+    process.exit(1);
+  });
+  server.listen(App.PORT, () => {
     console.info('   ✓ HTTP server listening on port', App.PORT);
     process.send?.('ready'); // PM2
   });
@@ -35,11 +45,11 @@ async function terminate(signal: string) {
   cleanExit = true;
 
   // Stop the HTTP server
-  if (!app.server.listening) {
+  if (!server.listening) {
     console.error('   😖 HTTP server was not started');
     process.exit(1);
   }
-  app.close(() => {
+  server.close(() => {
     console.info('   ✓ HTTP server terminated');
     process.exit(0);
   });

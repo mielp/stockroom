@@ -1,19 +1,11 @@
+/*
+ * Read configuration from the `.env` file.
+ */
 import { config } from 'dotenv';
-export { default as pkg } from '@/../package.json';
-
 config();
 
-export const enum ENVS {
-  DEV = 'DEV',
-  TEST = 'TEST',
-  PROD = 'PROD',
-}
-
-const getEnv = (type: string) =>
-  (type === 'TEST' && ENVS.TEST) || (type === 'PROD' && ENVS.PROD) || ENVS.DEV;
-
-export const App = {
-  PORT: Number(process.env.PORT) || 3000,
-  ENV: getEnv(process.env.NODE_ENV || ''),
-  LOG_LEVEL: process.env.LOG_LEVEL || 'info',
-};
+/*
+ * Load configuration data into typed objects.
+ */
+export { default as pkg } from '@/../package.json';
+export { ENVS, App } from './app';
